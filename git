@@ -84,5 +84,5 @@ git clone https://github.com/iksipsilon/phoneforth.git
 git checkout -b update-name
 git branch   # to show how many branches do we have exit by pressing q
 git switch <branch-name>   # to select the active branch you are working on
-
+git push -u origin <branch-name>
 
