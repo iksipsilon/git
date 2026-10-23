@@ -41,7 +41,7 @@ git commit -m "your comment"
 
 
 git pull origin main  # check origin with  git remote -v  and main (the branch) with  git branch -a
-
+git push origin main
 
 
 git init
