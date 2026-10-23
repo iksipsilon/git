@@ -40,6 +40,9 @@ git add .
 git commit -m "your comment"
 
 
+git pull origin main  # check origin with  git remote -v  and main (the branch) with  git branch -a
+
+
 
 git init
 git status   # to see what you have in the stageing area
