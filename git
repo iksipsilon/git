@@ -1,7 +1,18 @@
-git config --global user.name "iksipsilon"
+# if you use --system the settings apply to all users of the current computer
+# if you use --global the settings apply to all repositories of the current user 
+# if you use --local the settings apply to current repository or the repository in the current folder
+
+git config --system core.editor "vim"   #  othewise it is nano or some other shit
+
+git config --global -e  # this will open a file to edit all the global settings
+
+git config --global user.name "iksipsilon"   
 git config --global user.email "kelamahim@gmail.com"
+# on windows end of line are marked with two special caracters \r\n (carriage return and line feed)
+# on macOS/Linux end of lines are marke just with line feed \n so add input for Linux and true for windows
+git config --global core.autocrlf input
 git config --list	# too see all the current configurations
-git <word_of_interest> --help
+git <word_of_interest> --help   # press q to exit
 
 
 
@@ -26,24 +37,39 @@ git push -u origin main
 
 
 
-viewing informationa abouut the remote repository
+#viewing informationa abouut the remote repository
 
 git remote -v
 git branch -a
 
+#viewing what is in the staging area
 
-when making changes we first have to commit them localy.
+git status
+git ls-files   # to see which files are in the staging area 
+
+#even if we delete file2.txt from the working directory it is still in the staging area 
+#so we need to git add file2.txt in order to delete it from the staging area as well.
+#there is a shortcut to delete files from both places. 
+#git rm file2.txt or git rm file1.txt file2.txt or even git rm *.txt
+
+
+#renaming files
+
+git mv oldname.s newname.s
+
+
+#when making changes we first have to commit them localy.
 
 git diff   # shows the changes we did
 git status
-git add .
+git add file1.txt file2.txt
 git commit -m "your comment"
 
 
 git pull origin main  # check origin with  git remote -v  and main (the branch) with  git branch -a
 git push origin main
 
-
+#make a directory with all the necessary an unecessary files in it and than follow this to commit localy
 git init
 git status   # to see what you have in the stageing area
 git add filename.s   or   git add -A (git add .)  #to add all the files to the staging area
