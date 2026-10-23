@@ -6,7 +6,7 @@ git <word_of_interest> --help
 
 
 
-…or create a new repository on the command line
+create a new repository on the command line
 
 echo "# git" >> README.md
 git init
@@ -26,10 +26,23 @@ git push -u origin main
 
 
 
+viewing informationa abouut the remote repository
+
+git remote -v
+git branch -a
+
+
+when making changes we first have to commit them localy.
+
+git diff   # shows the changes we did
+git status
+git add .
+git commit -m "your comment"
+
 
 
 git init
-git status
+git status   # to see what you have in the stageing area
 git add filename.s   or   git add -A (git add .)  #to add all the files to the staging area
 git reset filename.s   #to remove a file from a staging area
 git commit -m "whatever comment for this commit"
