@@ -8,7 +8,7 @@ git config --global -e  # this will open a file to edit all the global settings
 
 git config --global user.name "iksipsilon"   
 git config --global user.email "kelamahim@gmail.com"
-# on windows end of line are marked with two special caracters \r\n (carriage return and line feed)
+# in windows, end of line are marked with two special caracters \r\n (carriage return and line feed)
 # on macOS/Linux end of lines are marke just with line feed \n so add input for Linux and true for windows
 git config --global core.autocrlf input
 git config --list	# too see all the current configurations
@@ -86,3 +86,13 @@ git branch   # to show how many branches do we have exit by pressing q
 git switch <branch-name>   # to select the active branch you are working on
 git push -u origin <branch-name>
 
+#To align your local environment with GitHub's standard, you can update your global Git configuration
+# to use main (istead of master)as the default branch for all future local repositories:
+
+git config --global init.defaultBranch main
+
+#If you have already created a local repository with a master branch, 
+#you can rename it locally and push it to the remote main branch using:
+
+git branch -M main
+git push -u origin main`
