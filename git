@@ -2,28 +2,39 @@
 # if you use --global the settings apply to all repositories of the current user 
 # if you use --local the settings apply to current repository or the repository in the current folder
 
+
+
+CONFIG
+
+
 git config --system core.editor "vim"   #  othewise it is nano or some other shit
 
-git config --global -e  # this will open a file to edit all the global settings
+#To align your local environment with GitHub's standard, you can update your global Git configuration
+# to use main (istead of master)as the default branch for all future local repositories:
+git config --global init.defaultBranch main
 
-git config --global user.name "iksipsilon"   
-git config --global user.email "kelamahim@gmail.com"
 # in windows, end of line are marked with two special caracters \r\n (carriage return and line feed)
 # on macOS/Linux end of lines are marke just with line feed \n so add input for Linux and true for windows
 git config --global core.autocrlf input
+
+git config --global user.name "iksipsilon"   
+git config --global user.email "kelamahim@gmail.com"
+
 git config --list	# too see all the current configurations
+git config --global -e  # this will open a file to edit all the global settings
+
 git <word_of_interest> --help   # press q to exit
 
 
 
+CREATE A NEW REPOSITORY ON THE COMMAND LINE
 
-create a new repository on the command line
 
 echo "# git" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
-git branch -M main
+git branch -M main  #in my case not necessary because i have "git config --global init.defaultBranch main"
 git remote add origin https://github.com/iksipsilon/git.git
 git push -u origin main
 
@@ -36,47 +47,43 @@ git push -u origin main
 
 
 
+REMOTE
+
 
 #viewing informationa abouut the remote repository
-
 git remote -v
 git branch -a
 
-#viewing what is in the staging area
+git pull origin main  # check origin with  git remote -v  and main (the branch) with  git branch -a
+git push origin main
 
-git status
+#The difference git pull/push and git pull/push -u is that git push -u configures the current local branch
+#to track the remote branch, enabling git pull and git push to work without arguments in the future. 
+#git push alone simply uploads commits to the specified remote branch without establishing this persistent tracking relationship.
+
+
+
+
+
+git status     #viewing what is in the staging area
+git diff   # shows the changes we did
 git ls-files   # to see which files are in the staging area 
-
-#even if we delete file2.txt from the working directory it is still in the staging area 
-#so we need to git add file2.txt in order to delete it from the staging area as well.
-#there is a shortcut to delete files from both places. 
-#git rm file2.txt or git rm file1.txt file2.txt or even git rm *.txt
+git log
 
 
 #renaming files
 
 git mv oldname.s newname.s
 
-
-#when making changes we first have to commit them localy.
-
-git diff   # shows the changes we did
-git status
-git add file1.txt file2.txt
-git commit -m "your comment"
-
-
-git pull origin main  # check origin with  git remote -v  and main (the branch) with  git branch -a
-git push origin main
-
-#make a directory with all the necessary an unecessary files in it and than follow this to commit localy
-git init
-git status   # to see what you have in the stageing area
-git add filename.s   or   git add -A (git add .)  #to add all the files to the staging area
-git reset filename.s  #take the current branch and reset it to point somewhere else  
 git rm --cached <filename>  #to remove a file from a staging area
-git commit -m "whatever comment for this commit"
-git log
+
+
+git add file1.txt file2.txt  or  git add *.txt
+git commit -m "your comment"  or just  git commit   and than write comment in vim file that will pop up
+
+
+
+git reset filename.s  #take the current branch and reset it to point somewhere else  
 
 
 CLONING 
@@ -94,10 +101,8 @@ git switch <branch-name>   # to select the active branch you are working on
 git push -u origin <branch-name>
 
 
-#To align your local environment with GitHub's standard, you can update your global Git configuration
-# to use main (istead of master)as the default branch for all future local repositories:
 
-git config --global init.defaultBranch main
+
 
 #If you have already created a local repository with a master branch, 
 #you can rename it locally and push it to the remote main branch using:
