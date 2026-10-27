@@ -73,18 +73,26 @@ git push origin main
 git init
 git status   # to see what you have in the stageing area
 git add filename.s   or   git add -A (git add .)  #to add all the files to the staging area
-git reset filename.s   #to remove a file from a staging area
+git reset filename.s  #take the current branch and reset it to point somewhere else  
+git rm --cached <filename>  #to remove a file from a staging area
 git commit -m "whatever comment for this commit"
 git log
 
 
-CLONING AND BRANCHING
+CLONING 
 
 git clone https://github.com/iksipsilon/phoneforth.git
+
+
+BRANCHING
+
+git branch <new_branch_name> #create a new branch
+git checkout <new_branch_name> #start working on the new branch 
 git checkout -b update-name
 git branch   # to show how many branches do we have exit by pressing q
 git switch <branch-name>   # to select the active branch you are working on
 git push -u origin <branch-name>
+
 
 #To align your local environment with GitHub's standard, you can update your global Git configuration
 # to use main (istead of master)as the default branch for all future local repositories:

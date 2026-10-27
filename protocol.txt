@@ -1,0 +1,12 @@
+#Make a new repository on github, name it and add licence or not, and copy the URL of the repository
+#mkdir a local file, and while you are in there clone the reo into it.
+
+git clone https://github.com/iksipsilon/<REPO_NAME>.git .
+
+#the dot at the end will clone the repo into your working directory`
+
+#start making filesystem, add .gitignore, write some code and than
+#after adding and commiting
+
+git push origin main
+
