@@ -1,29 +1,82 @@
-# if you use --system the settings apply to all users of the current computer
-# if you use --global the settings apply to all repositories of the current user 
-# if you use --local the settings apply to current repository or the repository in the current folder
+# use --system the settings apply to all users of the computer /etc/gitconfig
+# use --global the settings apply to all repositories of the user ~/.gitconfig
+# use --local the settings apply to current repository 
 
 
 
-CONFIG
+	CONFIG
 
 
-git config --system core.editor "vim"   #  othewise it is nano or some other shit
+git config --global core.editor "vim"   
+# othewise it is nano or some other editor 
+# you don't need "" because there are no spaces in the name.
 
-#To align your local environment with GitHub's standard, you can update your global Git configuration
-# to use main (istead of master)as the default branch for all future local repositories:
+# To set main (instead of master) as the default branch name do:
 git config --global init.defaultBranch main
 
-# in windows, end of line are marked with two special caracters \r\n (carriage return and line feed)
-# on macOS/Linux end of lines are marke just with line feed \n so add input for Linux and true for windows
 git config --global core.autocrlf input
+# in windows, end of line is marked with \r\n (carriage return and line feed)
+# on macOS/Linux end of lines are marke just with line feed \n 
+# so add input for Linux and true for windows
+
 
 git config --global user.name "iksipsilon"   
 git config --global user.email "kelamahim@gmail.com"
 
-git config --list	# too see all the current configurations
+git config --list   # to check your configuration settings
+git config --list --show-orgin   
+# You can view all of your settings and where they are coming from
+
 git config --global -e  # this will open a file to edit all the global settings
 
 git <word_of_interest> --help   # press q to exit
+git <word_of_interest> -h       # a shorter help with options listed     
+
+
+
+	OBTAINING A Git REPOSITORY 
+
+
+# 1. You can take a local directory that is currently not under version control,
+# and turn it into a Git repository, or
+
+# 2. You can clone an existing Git repository from elsewhere.
+
+
+# 1.
+cd /home/user/my_project
+git init
+git add *.s
+git add LICENSE
+git commit -m 'Initial project version'
+
+# 2.
+git clone <url>
+
+
+
+	.GITIGNORE
+
+
+#For files that you don’t want Git to automatically add or even show you asbbeing untracked. 
+#These are generally automatically generated files such as log files 
+#or files produced by your build system. you can create a file listing patterns to match them
+.gitignore
+
+$ cat .gitignore
+*.[oa]   # tells Git to ignore any files ending in “.o” or “.a”
+
+# Glob patterns are like simplified regular expressions that shells use. 
+# An asterisk (*) matches zero or more characters; 
+# [abc] matches any character inside the brackets (in this case a, b, or c); 
+# a question mark (?) matches a single character; 
+
+# ignore all .a files
+*.a
+# but do track lib.a, even though you're ignoring .a files above
+!lib.a
+# ignore all files in any directory named build
+build/
 
 
 
@@ -34,7 +87,7 @@ echo "# git" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
-git branch -M main  #in my case not necessary because i have "git config --global init.defaultBranch main"
+git branch -M main  
 git remote add origin https://github.com/iksipsilon/git.git
 git push -u origin main
 
@@ -47,65 +100,93 @@ git push -u origin main
 
 
 
-REMOTE
+	REMOTE
 
 
-#viewing informationa abouut the remote repository
-git remote -v
-git branch -a
-
-git pull origin main  # check origin with  git remote -v  and main (the branch) with  git branch -a
-git push origin main
-
-#The difference git pull/push and git pull/push -u is that git push -u configures the current local branch
-#to track the remote branch, enabling git pull and git push to work without arguments in the future. 
-#git push alone simply uploads commits to the specified remote branch without establishing this persistent tracking relationship.
+git remote -v   # check origin
+git branch -a   # see the branches 
 
 
+git pull origin <branch-name>  
+git push origin <branch-name>
+
+git pull -u origin <branch-name>
+git push -u origin <branch-name>
+# the -u option configures the current local branch to track the remote branch,
+# enabling git pull and git push to work without arguments in the future. 
+# git push alone simply uploads commits to the specified remote branch 
+# without establishing this persistent tracking relationship.
 
 
 
-git status     #viewing what is in the staging area
-git diff   # shows the changes we did
+git status     # viewing what is in the staging area
+git diff       # shows the changes we did to each line, that are still unstaged
 git ls-files   # to see which files are in the staging area 
 git log
 
 
 #renaming files
+git mv oldname.s newname.s  
 
-git mv oldname.s newname.s
 
-git rm --cached <filename>  #to remove a file from a staging area
+# deleting files
+git rm
+git rm -f  # sometimes you have to force it
+git rm --cached <filename>  
+# you may want to keep the file on your hard drive but not have Git track it anymore. 
+# This is particularly useful if you forgot to add something to your .gitignore
+# file and accidentally staged it
 
 
 git add file1.txt file2.txt  or  git add *.txt
-git commit -m "your comment"  or just  git commit   and than write comment in vim file that will pop up
 
+git commit -m "your comment"  or git commit and than comment in a file that will pop up
 
 
 git reset filename.s  #take the current branch and reset it to point somewhere else  
 
 
-CLONING 
 
-git clone https://github.com/iksipsilon/phoneforth.git
+	BRANCHING
 
-
-BRANCHING
 
 git branch <new_branch_name> #create a new branch
 git checkout <new_branch_name> #start working on the new branch 
 git checkout -b update-name
-git branch   # to show how many branches do we have exit by pressing q
+git branch   #show how many branches do we have, add -a option for more info 
 git switch <branch-name>   # to select the active branch you are working on
-git push -u origin <branch-name>
-
-
-
-
 
 #If you have already created a local repository with a master branch, 
 #you can rename it locally and push it to the remote main branch using:
-
-git branch -M main
+git branch -M main   #forcefully renames the current local branch to main
 git push -u origin main`
+
+
+
+	MERGING
+
+
+git checkout main
+git pull origin main
+git merge <side_branch_name>  # to merge the branch with the main branch
+git push origin main
+git branch -d <side_branch_name>  #locally delete the branch that we merged
+git push origin --delete <side_branch_name> #delete from the remote server (github)
+
+git branch --merged   #to see which branches have we merged insofar
+
+
+
+	BROWSING HISTORY
+
+
+#if you want to see detailed logs with dates, etc write:
+git log
+#othervise just get the hashes with corresponding comments
+git log --oneline
+git checkout <commit-hash>   
+#If you want to explore a past state without losing your current branch's history,
+# create a new branch at that commit: 
+git checkout -b <new-branch-name> <commit-hash>.
+#To return to your most recent branch
+git checkout main
