@@ -58,7 +58,7 @@ git clone <url>
 	.GITIGNORE
 
 
-#For files that you don’t want Git to automatically add or even show you asbbeing untracked. 
+#For files that you don’t want Git to automatically add or even show you as being untracked. 
 #These are generally automatically generated files such as log files 
 #or files produced by your build system. you can create a file listing patterns to match them
 .gitignore
@@ -102,12 +102,25 @@ git push -u origin main
 
 	REMOTE
 
+# git clone command implicitly adds the origin remote for you
 
 git remote -v   # check origin
-git branch -a   # see the branches 
 
+# To add a new remote Git repository as a shortname you can reference easily, run
+git remote add <shortname> <url>
+# Now you can use the string you invent <shortname> 
+# on the command line instead of the whole URL
 
-git pull origin <branch-name>  
+git fetch  
+# only downloads the data to your local repository it doesn’t automatically merge
+# it with any of your work or modify what you’re currently working on. 
+# You have to merge it manually into your work when you’re ready.
+
+git pull <remote> <branch>
+# for example: git pull origin main  
+# automatically fetch and then merge that remote branch into your current branch 
+# <remote> is the server you are pulling or pushing to
+
 git push origin <branch-name>
 
 git pull -u origin <branch-name>
@@ -117,7 +130,25 @@ git push -u origin <branch-name>
 # git push alone simply uploads commits to the specified remote branch 
 # without establishing this persistent tracking relationship.
 
+git remote show <remote>
+# to see more information about a particular remote. Use shortname say origin
 
+
+
+	TAGING
+
+# Git has the ability to tag specific points in a repository’s history as being important
+
+git tag  # list existing tags you can add --list option
+
+git tag -a v1.4 -m "my version 1.4"  # create a tag
+
+git show  # see the tag data along with the commit that was tagged
+
+# If you want to view the versions of files a tag is pointing to, 
+# you can do a git checkout of that tag, although this puts your repository in
+#  “detached HEAD” state, which has some ill side effects
+git checkout v1.4
 
 git status     # viewing what is in the staging area
 git diff       # shows the changes we did to each line, that are still unstaged
@@ -141,7 +172,7 @@ git rm --cached <filename>
 git add file1.txt file2.txt  or  git add *.txt
 
 git commit -m "your comment"  or git commit and than comment in a file that will pop up
-
+git commit -a   # commit all changed files
 
 git reset filename.s  #take the current branch and reset it to point somewhere else  
 
@@ -150,15 +181,38 @@ git reset filename.s  #take the current branch and reset it to point somewhere e
 	BRANCHING
 
 
-git branch <new_branch_name> #create a new branch
-git checkout <new_branch_name> #start working on the new branch 
-git checkout -b update-name
-git branch   #show how many branches do we have, add -a option for more info 
-git switch <branch-name>   # to select the active branch you are working on
+git branch   						# show how many branches do we have 
+git branch -a 						# add -a option for more info 
+git branch -v						# see last commit on each branch + short HASH
+git checkout <existing_branch_name> # start working on the new branch 
+git branch <new_branch_name>        # create a new branch
+git checkout -b <new-branch-name>   # create a new branch and switch to that
+								    # new branch at the same time 
+git branch -d <branch-name>			# delete branch
+git branch --merged   				# to see which branches have we merged insofar
+git branch --no-merged				# To see all the branches that contain work 
+									# you haven’t yet merged in
+
+
+								    
+
+# From Git version 2.23 onwards you can use git switch instead of git checkout to:
+# • Switch to an existing branch: git switch testing-branch.
+# • Create a new branch and switch to it: git switch -c new-branch. The -c flag
+# stands for create, you can also use the full flag: --create.
+# • Return to your previously checked out branch: git switch -.
+
+
+
+
+
 
 #If you have already created a local repository with a master branch, 
 #you can rename it locally and push it to the remote main branch using:
 git branch -M main   #forcefully renames the current local branch to main
+# main or master branches are not special branches, th only reason almost every
+# repositori has them is because "git init" creates it by default.
+
 git push -u origin main`
 
 
@@ -166,27 +220,59 @@ git push -u origin main`
 	MERGING
 
 
+# you are in your main branch an decide you want to work on SPI so you do:
+git checkout -b SPI
+# you do some work and do some commits, doing so moves the SPI forward
+# because you have it checked out (that is, your HEAD is pointing to it)
+# suddenly issues emerge from the LED display (GPIO), so you switch back
+# to your main branch. After commiting SPI. If you don't commit you can
+# get around this with stashing and commit amending.
 git checkout main
-git pull origin main
-git merge <side_branch_name>  # to merge the branch with the main branch
-git push origin main
-git branch -d <side_branch_name>  #locally delete the branch that we merged
-git push origin --delete <side_branch_name> #delete from the remote server (github)
+# At this point, your project working directory is exactly 
+# the way it was before you started working on SPI.
+git checkout -b GPIO
+# you fix the issue and commit it
+git checkout main
+git merge GPIO
+# after you fixd the issue with LED display, you are ready to continue with SPI,
+# However, first you’ll delete the GPIO branch, because you no longer
+# need it — the main branch points at the same place
+git branch -d GPIO
+# Now you can switch back to your work-in-progress branch SPI
+git checkout SPI
 
-git branch --merged   #to see which branches have we merged insofar
+# It’s worth noting here that the work you did in your GPIO branch is not contained 
+# in the files in your SPI branch. If you need to pull it in, you can merge your main
+# branch into your SPI branch by running git merge main, or you can wait to integrate
+# those changes until you decide to pull the SPI branch back into main later.
+# When your SPI is completed just do:
+git checkout main
+git merge SPI
+git branch -d SPI
+
+
+
+git checkout main
+git merge <branch_name>  				# to merge the branch with the main branch
+git push origin main
+git branch -d <branch_name>  			# locally delete the branch that we merged
+git push origin --delete <branch_name>  # delete from the remote server (github)
+
+git branch --merged   					# to see which branches have we merged	
 
 
 
 	BROWSING HISTORY
 
 
-#if you want to see detailed logs with dates, etc write:
-git log
-#othervise just get the hashes with corresponding comments
-git log --oneline
+git log   			# to see detailed logs with dates, etc.
+git log --oneline   # get the hashes with corresponding comments
+git log --graph 	# Display an ASCII graph of the branch and merge history
+git log --grep  	# lets you search for keywords in the commit messages.
+
 git checkout <commit-hash>   
-#If you want to explore a past state without losing your current branch's history,
-# create a new branch at that commit: 
+# If you want to explore a past state without losing your
+# current branch's history, create a new branch at that commit: 
 git checkout -b <new-branch-name> <commit-hash>.
 #To return to your most recent branch
 git checkout main
