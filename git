@@ -131,7 +131,7 @@ git push -u origin <branch-name>
 # without establishing this persistent tracking relationship.
 
 git remote show <remote>
-# to see more information about a particular remote. Use shortname say origin
+# to see more information about a particular remote. Use shortname, say origin
 
 
 
@@ -160,7 +160,8 @@ git log
 git mv oldname.s newname.s  
 
 
-# deleting files
+	DELETING FILES
+
 git rm
 git rm -f  # sometimes you have to force it
 git rm --cached <filename>  
@@ -213,7 +214,7 @@ git branch -M main   #forcefully renames the current local branch to main
 # main or master branches are not special branches, th only reason almost every
 # repositori has them is because "git init" creates it by default.
 
-git push -u origin main`
+git push -u origin main
 
 
 
