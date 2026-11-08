@@ -78,6 +78,15 @@ $ cat .gitignore
 # ignore all files in any directory named build
 build/
 
+WORKING WITH SUBDIRECTORIES
+
+Put the files that are in subdirectories and you don't want to follow them
+in the repo .gitignore (you can do it in the subdirs own .gitignore, but better not.) 
+Write the path from the repo root: 
+
+subdir-name/unwanted-file1.xml
+subdir-name/unwanted-file2.cache
+...
 
 
 CREATE A NEW REPOSITORY ON THE COMMAND LINE
@@ -152,6 +161,7 @@ git checkout v1.4
 
 git status     # viewing what is in the staging area
 git diff       # shows the changes we did to each line, that are still unstaged
+			   # scroll with the down arrow to see all the changes and press q to quit	
 git ls-files   # to see which files are in the staging area 
 git log
 
@@ -277,3 +287,8 @@ git checkout <commit-hash>
 git checkout -b <new-branch-name> <commit-hash>.
 #To return to your most recent branch
 git checkout main
+
+
+	SYMLINKS
+
+git doesn’t follow symlinks. It stores only the link itself (a small file holding the path text), not the files it points to. With the real config in $HOME and a link in the repo, GitHub would get a link and none of your settings. On a new system you’d clone the repo and find a dangling link.
